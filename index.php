@@ -23,7 +23,7 @@
     $data       = null;
     $method     = $_SERVER['REQUEST_METHOD']; // Permitidos: DELETE, GET, POST, PUT
     $uri        = $_SERVER['REQUEST_URI']; // ex: /gamenews/api/games/10
-    $unsetCount = 2; // Quantidade a ser removida da URI
+    $unsetCount = ($_SERVER['HTTP_HOST'] == 'localhost') ? 2 : 1; // Quantidade a ser removida da URI
     // Fim da declaração dos parâmetros
 
 
