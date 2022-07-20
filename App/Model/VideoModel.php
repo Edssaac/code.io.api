@@ -100,7 +100,7 @@
                     "id" => $game->getId(),
                     "titulo" => $game->getTitulo(),
                     "descricao" => $game->getDescricao(),
-                    "videoId" => $game->getVideoId()
+                    "videoid" => $game->getVideoid()
                 ];
             }
 
@@ -129,7 +129,7 @@
                     $game["id"],
                     $game["titulo"],
                     $game["descricao"],
-                    $game["videoId"]
+                    $game["videoid"]
                 );
             }
         }

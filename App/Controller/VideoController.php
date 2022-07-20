@@ -83,7 +83,7 @@
                 null, 
                 (isset($data['titulo'])     ? $data['titulo']       : null), 
                 (isset($data['descricao'])  ? $data['descricao']    : null), 
-                (isset($data['videoId'])    ? $data['videoId']      : null)
+                (isset($data['videoid'])    ? $data['videoid']      : null)
             );
         }
 
@@ -95,16 +95,16 @@
                 return "id inválido: deve ser númerico e maior que 0.";
             }
 
-            if (strlen($game->getTitulo()) <= 3 || strlen($game->getTitulo()) > 100) {
-                return "título inválido: deve conter mais que 3 caracteres e menos que 100.";
+            if (strlen($game->getTitulo()) < 10 || strlen($game->getTitulo()) > 25) {
+                return "título inválido: deve conter mais que 9 caracteres e menos que 26.";
             }
 
             if (strlen($game->getDescricao()) < 10 || strlen($game->getDescricao()) > 250) {
-                return "descrição inválida: deve conter mais que 10 caracteres e menos que 250.";
+                return "descrição inválida: deve conter mais que 9 caracteres e menos que 251.";
             }
 
-            if ($game->getVideoId() == "" || strlen($game->getVideoId()) > 15) {
-                return "videoId inválido: não pode estar vazio e deve conter menos que 16 caracteres.";
+            if ($game->getVideoid() == "" || strlen($game->getVideoid()) > 11) {
+                return "videoid inválido: não pode estar vazio e deve conter no máximo que 11 caracteres.";
             }
 
             return $message;

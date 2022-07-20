@@ -8,14 +8,14 @@
         private $id;
         private $titulo;
         private $descricao;
-        private $videoId;
+        private $videoid;
 
         // construtor da classe:
-        public function __construct($id=0, $titulo='', $descricao='', $videoId='') {
+        public function __construct($id=0, $titulo='', $descricao='', $videoid='') {
             $this->id = $id;
             $this->titulo = $titulo;
             $this->descricao = $descricao;
-            $this->videoId = $videoId;
+            $this->videoid = $videoid;
         }
 
         // setters:
@@ -31,8 +31,8 @@
             $this->descricao = $descricao;
         }
 
-        public function setVideoId($videoId) {
-            $this->videoId = $videoId;
+        public function setVideoid($videoid) {
+            $this->videoid = $videoid;
         }
 
         // getters:
@@ -48,8 +48,8 @@
             return $this->descricao;
         }
 
-        public function getVideoId() {
-            return $this->videoId;
+        public function getVideoid() {
+            return $this->videoid;
         }
 
     }
