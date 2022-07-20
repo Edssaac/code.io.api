@@ -1,6 +1,6 @@
 {
     "name": "edssaac/code.io.api",
-    "description": "API para dados de vídeos sobre tecnologia.",
+    "description": "API para dados de videos sobre tecnologia.",
     "license": "MIT",
     "autoload": {
         "psr-4": {
