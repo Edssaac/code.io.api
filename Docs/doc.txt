@@ -1,0 +1,31 @@
+======= Descrição
+code.io.api é uma aplicação de estudo baseado em restful.
+seu objetivo é conectar usuário para que possam compartilhar 
+vídeos relacionados a programação.
+este é apenas um simples e iniciante projeto de estudos.
+
+
+======= Campos
+id          = código de identificação do vídeo registrado na api
+titulo      = nome do vídeo
+descricao   = descrição do vídeo
+videoid     = id do vídeo do youtube
+
+
+======= Validação
+id          = > 0 (maior que zero)
+titulo      = >= 10 && <= 25  (entre 10 e 25 caracteres)
+descricao   = >= 10 && <= 250 (entre 10 e 250 caracteres)
+videoid     = != "" && <= 11  (não pode estar vazio e deve conter até 11 caracteres)
+
+
+======= URL base
+https://code-io-api.herokuapp.com/
+
+
+======= Endpoints
+POST    = /video     | Cria um novo registro de vídeo
+PUT     = /video/:id | Altera o registro de um vídeo
+DELETE  = /video/:id | Deleta o registro de um vídeo
+GET     = /video/:id | Retorna um vídeo registrado pelo seu id
+GET     = /video     | Retorna todos os vídeos registrados
