@@ -3,10 +3,10 @@
     namespace App\Model;
 
     // Dependências:
-    use App\Entity\Game;
+    use App\Entity\Video;
     use App\Util\Serialize;
 
-    class GameModel {
+    class VideoModel {
 
         private $fileName;
         private $listGame;
@@ -19,21 +19,21 @@
         }
 
         // Método responsável por criar uma nova instância:
-        public function create(Game $game) {
-            $game->setId($this->getLastId());
-            $this->listGame[] = $game;
+        public function create(Video $video) {
+            $video->setId($this->getLastId());
+            $this->listGame[] = $video;
             $this->save();
 
             return "jogo registrado.";
         }
 
         // Método responsável por atualizar um registro:
-        public function update(Game $game)  {
+        public function update(Video $video)  {
             $result = "jogo não encontrado.";
         
             for($i = 0; $i < count($this->listGame); $i++) {
-                if($this->listGame[$i]->getId() == $game->getId()) {
-                    $this->listGame[$i] = $game;
+                if($this->listGame[$i]->getId() == $video->getId()) {
+                    $this->listGame[$i] = $video;
                     $result = "jogo atualizado.";
                 }
             }
@@ -63,9 +63,9 @@
 
         // Método responsável por retornar um registro especificado pelo id:
         public function getById($id) {
-            foreach($this->listGame as $game){
-                if($game->getId() == $id) {
-                    return (new Serialize())->serialize($game);
+            foreach($this->listGame as $video){
+                if($video->getId() == $id) {
+                    return (new Serialize())->serialize($video);
                 }
             }
         
@@ -95,12 +95,12 @@
             $temp = []; // Array temporário de jogos a serem salvos;
 
             // Passando os dados para o array temporário:
-            foreach ($this->listGame as $game) {
+            foreach ($this->listGame as $video) {
                 $temp[] = [
-                    "id" => $game->getId(),
-                    "titulo" => $game->getTitulo(),
-                    "descricao" => $game->getDescricao(),
-                    "videoid" => $game->getVideoid()
+                    "id" => $video->getId(),
+                    "titulo" => $video->getTitulo(),
+                    "descricao" => $video->getDescricao(),
+                    "videoid" => $video->getVideoid()
                 ];
             }
 
@@ -124,12 +124,12 @@
             $arrayGame = json_decode($string, true);
 
             // Passando os dados para o array temporário:
-            foreach ($arrayGame as $game) {
-                $this->listGame[] = new Game(
-                    $game["id"],
-                    $game["titulo"],
-                    $game["descricao"],
-                    $game["videoid"]
+            foreach ($arrayGame as $video) {
+                $this->listGame[] = new Video(
+                    $video["id"],
+                    $video["titulo"],
+                    $video["descricao"],
+                    $video["videoid"]
                 );
             }
         }

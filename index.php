@@ -5,7 +5,7 @@
     require_once(__DIR__.'/vendor/autoload.php');
 
     // Dependências:
-    use App\Controller\GameController;
+    use App\Controller\VideoController;
 
 
     // Headers:
@@ -59,12 +59,12 @@
         die;
     }
 
-    $gameController = new GameController();
+    $videoController = new VideoController();
 
     switch ($method) {
         case 'POST':
             if ($id == null) {
-                echo $gameController->create($data);
+                echo $videoController->create($data);
             } else {
                 echo json_encode(["erro" => "requisição inválida: rota POST não deve receber um ID."]);
             }
@@ -72,7 +72,7 @@
 
         case 'PUT':
             if ($id != null) {
-                echo $gameController->update($id, $data);
+                echo $videoController->update($id, $data);
             } else {
                 echo json_encode(["erro" => "requisição inválida: rota PUT necessita de um ID para que a atualização ocorra."]);
             }
@@ -80,7 +80,7 @@
             
         case 'DELETE':
             if ($id != null) {
-                echo $gameController->delete($id);
+                echo $videoController->delete($id);
             } else {
                 echo json_encode(["erro" => "requisição inválida: rota DELETE necessita de um ID para que a exclusão ocorra."]);
             }
@@ -88,9 +88,9 @@
 
         case 'GET':
             if ($id != null) {
-                echo $gameController->getById($id);
+                echo $videoController->getById($id);
             } else {
-                echo $gameController->getAll();
+                echo $videoController->getAll();
             }
         break;
         

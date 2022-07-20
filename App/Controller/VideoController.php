@@ -3,25 +3,25 @@
     namespace App\Controller;
 
     // Dependências:
-    use App\Entity\Game;
-    use App\Model\GameModel;
+    use App\Entity\Video;
+    use App\Model\VideoModel;
 
-    class GameController {
+    class VideoController {
 
-        private $gameModel;
+        private $videoModel;
 
         // Método construtor da classe:
         public function __construct() {
-            $this->gameModel = new GameModel();
+            $this->videoModel = new VideoModel();
         }
 
         // POST - Método responsável por criar uma nova instância:
         public function create($data = null) {
-            $game = $this->convertType($data);
-            $result = $this->validate($game);
+            $video = $this->convertType($data);
+            $result = $this->validate($video);
 
             if ($result == "") {
-                return json_encode(["mensagem" => $this->gameModel->create($game)]);
+                return json_encode(["mensagem" => $this->videoModel->create($video)]);
             } else {
                 return json_encode(["mensagem" => $result]);
             }
@@ -30,12 +30,12 @@
 
         // PUT - Método responsável por atualizar uma instância:
         public function update($id = null, $data = null) {
-            $game = $this->convertType($data);
-            $game->setId($id);
-            $result = $this->validate($game, true);
+            $video = $this->convertType($data);
+            $video->setId($id);
+            $result = $this->validate($video, true);
 
             if ($result == "") {
-                return json_encode(["mensagem" => $this->gameModel->update($game)]);
+                return json_encode(["mensagem" => $this->videoModel->update($video)]);
             } else {
                 return json_encode(["erro" => $result]);
             }
@@ -49,7 +49,7 @@
                 return json_encode(["erro" => "id inválido: deve ser maior que 0."]);
             }
         
-            $result = $this->gameModel->delete($id);
+            $result = $this->videoModel->delete($id);
         
             return json_encode(["mensagem" => $result]);
         }
@@ -62,23 +62,23 @@
                 return json_encode(["erro" => "id inválido: deve ser maior que 0."]);
             }
         
-            // return $this->gameModel->getById($id);
-            return json_encode(["resultado" => json_decode($this->gameModel->getById($id), true)]);
+            // return $this->videoModel->getById($id);
+            return json_encode(["resultado" => json_decode($this->videoModel->getById($id), true)]);
         }
 
         // GET - Método responsável por retornar todas as instâncias:
         public function getAll() {
-            // return $this->gameModel->getAll();
-            return json_encode(["resultado" => json_decode($this->gameModel->getAll(), true)]);
+            // return $this->videoModel->getAll();
+            return json_encode(["resultado" => json_decode($this->videoModel->getAll(), true)]);
         }
 
-        // Método responsável por converter os dados recebidos em um objeto Game:
+        // Método responsável por converter os dados recebidos em um objeto Video:
         private function convertType($data) {
             if ($data == null) {
-                return new Game();
+                return new Video();
             }
 
-            return new Game
+            return new Video
             (
                 null, 
                 (isset($data['titulo'])     ? $data['titulo']       : null), 
@@ -88,22 +88,22 @@
         }
 
         // Método responsável por validar os dados recebidos:
-        private function validate(Game $game, $update = false) {
+        private function validate(Video $video, $update = false) {
             $message = "";
 
-            if ($update && $game->getId() <= 0) {
+            if ($update && $video->getId() <= 0) {
                 return "id inválido: deve ser númerico e maior que 0.";
             }
 
-            if (strlen($game->getTitulo()) < 10 || strlen($game->getTitulo()) > 25) {
+            if (strlen($video->getTitulo()) < 10 || strlen($video->getTitulo()) > 25) {
                 return "título inválido: deve conter mais que 9 caracteres e menos que 26.";
             }
 
-            if (strlen($game->getDescricao()) < 10 || strlen($game->getDescricao()) > 250) {
+            if (strlen($video->getDescricao()) < 10 || strlen($video->getDescricao()) > 250) {
                 return "descrição inválida: deve conter mais que 9 caracteres e menos que 251.";
             }
 
-            if ($game->getVideoid() == "" || strlen($game->getVideoid()) > 11) {
+            if ($video->getVideoid() == "" || strlen($video->getVideoid()) > 11) {
                 return "videoid inválido: não pode estar vazio e deve conter no máximo que 11 caracteres.";
             }
 

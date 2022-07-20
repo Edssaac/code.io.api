@@ -2,7 +2,7 @@
 
     namespace App\Entity;
 
-    class Game {
+    class Video {
 
         // atributos da classe:
         private $id;
