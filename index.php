@@ -59,6 +59,11 @@
         die;
     }
 
+    if ($controller != 'video') {
+        echo json_encode(["erro" => "caminho não suportado pela API. verifique a documentação."]);
+        die;
+    }
+
     $videoController = new VideoController();
 
     switch ($method) {

@@ -11,7 +11,7 @@
     class Connection
     {
         // Host de conexão com o banco de dados:
-        const HOST = "us-cdbr-east-06.cleardb.ne";
+        const HOST = "us-cdbr-east-06.cleardb.net";
 
         // Nome do banco de dados:
         const NAME = "heroku_92e99867f594922";
