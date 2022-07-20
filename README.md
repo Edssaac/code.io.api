@@ -1,7 +1,7 @@
-| Verbo     | Caminho       | Ação  |
+| Verbo     | Caminho       | AÃ§Ã£o  |
 |-----------|:-------------:|:------|
-| POST      | /video        | cria um novo registro de vídeo                        |
-| PUT       | /video/id     | atualiza um vídeo específico                          |
-| DELETE    | /video/id     | deleta um vídeo específico                            |
-| GET       | /video/id     | obtém as informações de um vídeo em específico        |
-| GET       | /video        | obtém as informações de todos os vídeos registrados   |
+| POST      | /video        | cria um novo registro de vÃ­deo                        |
+| PUT       | /video/id     | atualiza um vÃ­deo especÃ­fico                          |
+| DELETE    | /video/id     | deleta um vÃ­deo especÃ­fico                            |
+| GET       | /video/id     | obtÃ©m as informaÃ§Ãµes de um vÃ­deo em especÃ­fico        |
+| GET       | /video        | obtÃ©m as informaÃ§Ãµes de todos os vÃ­deos registrados   |
