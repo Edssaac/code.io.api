@@ -4,134 +4,70 @@
 
     // Dependências:
     use App\Entity\Video;
-    use App\Util\Serialize;
+    use App\Database\Connection;
 
     class VideoModel {
 
-        private $fileName;
-        private $listGame;
+        private $db;
 
         // Método construtor da classe:
         public function __construct() {
-            $this->fileName = "../database/games.db";
-            $this->listGame = [];
-            $this->load();
+            $this->db = new Connection("tbvideos");
         }
 
         // Método responsável por criar uma nova instância:
-        public function create(Video $video) {
-            $video->setId($this->getLastId());
-            $this->listGame[] = $video;
-            $this->save();
+        public function create($video) {
 
-            return "jogo registrado.";
+            if ($this->db->insert($video)) {
+                return "vídeo registrado.";
+            } 
+
+            return "";
         }
 
         // Método responsável por atualizar um registro:
-        public function update(Video $video)  {
-            $result = "jogo não encontrado.";
+        public function update($id, $video)  {
         
-            for($i = 0; $i < count($this->listGame); $i++) {
-                if($this->listGame[$i]->getId() == $video->getId()) {
-                    $this->listGame[$i] = $video;
-                    $result = "jogo atualizado.";
-                }
+            if (count($this->db->select("id=$id")->fetchAll()) == 0) {
+                return "";
+            }
+            
+            if ($this->db->update("id=$id", $video)) {
+                return "vídeo atualizado.";
             }
         
-            $this->save();
-        
-            return $result;
+            return "";
         }
         
         // Método responsável por excluir um registro:
         public function delete($id){
-            $result = "jogo não encontrado.";
 
-            for($i = 0; $i < count($this->listGame); $i++) {
-                if($this->listGame[$i]->getId() == $id) {
-                    unset($this->listGame[$i]);
-                    $result = "jogo deletado.";
-                }
+            if (count($this->db->select("id=$id")->fetchAll()) == 0) {
+                return "";
+            }
+            
+            if ($this->db->delete("id=$id")) {
+                return "vídeo deletado.";
             }
         
-            $this->listGame = array_filter(array_values($this->listGame));
-        
-            $this->save();
-
-            return $result;
+            return "";
         }
 
         // Método responsável por retornar um registro especificado pelo id:
         public function getById($id) {
-            foreach($this->listGame as $video){
-                if($video->getId() == $id) {
-                    return (new Serialize())->serialize($video);
-                }
+
+            $search = $this->db->select("id=$id")->fetch(\PDO::FETCH_ASSOC);
+
+            if (!$search) {
+                return "";
             }
-        
-            return json_encode([]);
+
+            return json_encode($search);
         }
 
         // Método responsável por retornar todos os registros:
         public function getAll() {
-            return (new Serialize())->serialize($this->listGame);
-        }
-
-        // Método responsável por retornar o último id acrescentado por 1:
-        private function getLastId(){
-            $lastId = 0;
-        
-            foreach($this->listGame as $g) {
-                if($g->getId() > $lastId) {
-                    $lastId = $g->getId();
-                }
-            }
-
-            return (++$lastId);
-        }
-
-        // Método responsável por salvar os dados:
-        public function save() {
-            $temp = []; // Array temporário de jogos a serem salvos;
-
-            // Passando os dados para o array temporário:
-            foreach ($this->listGame as $video) {
-                $temp[] = [
-                    "id" => $video->getId(),
-                    "titulo" => $video->getTitulo(),
-                    "descricao" => $video->getDescricao(),
-                    "videoid" => $video->getVideoid()
-                ];
-            }
-
-            $string = json_encode($temp); // Convertendo o array temporário em json;
-            $fp = fopen($this->fileName, "w"); // Abrindo o arquivo em modo de escrita;
-            fwrite($fp, $string); // Escrevendo o json no arquivo;
-            fclose($fp); // Fechando o arquivo;
-        }
-
-        // Método responsável por carregar os dados:
-        public function load() {
-            // Verificando se o arquivo não existe ou se está vazio:
-            if (!file_exists($this->fileName) || filesize($this->fileName) <=0) {
-                return [];
-            }
-
-            $fp = fopen($this->fileName, "r"); // Abrindo o arquivo em modo de leitura;
-            $string = fread($fp, filesize($this->fileName));
-            fclose($fp); // Fechando o arquivo;
-            
-            $arrayGame = json_decode($string, true);
-
-            // Passando os dados para o array temporário:
-            foreach ($arrayGame as $video) {
-                $this->listGame[] = new Video(
-                    $video["id"],
-                    $video["titulo"],
-                    $video["descricao"],
-                    $video["videoid"]
-                );
-            }
+            return ($this->db->select()->fetchAll(\PDO::FETCH_ASSOC));
         }
 
     }

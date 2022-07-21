@@ -20,25 +20,37 @@
             $video = $this->convertType($data);
             $result = $this->validate($video);
 
-            if ($result == "") {
-                return json_encode(["mensagem" => $this->videoModel->create($video)]);
-            } else {
-                return json_encode(["mensagem" => $result]);
+            if ($result != "") {
+                return json_encode(["erro" => $result]);
             }
 
+            $result = $this->videoModel->create($data);
+
+            if ($result == "") {
+                return json_encode(["erro" => "vídeo não pôde ser registrado."]);
+            } 
+
+            return json_encode(["mensagem" => $result]);
         }
 
         // PUT - Método responsável por atualizar uma instância:
         public function update($id = null, $data = null) {
+            $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
             $video = $this->convertType($data);
             $video->setId($id);
             $result = $this->validate($video, true);
 
-            if ($result == "") {
-                return json_encode(["mensagem" => $this->videoModel->update($video)]);
-            } else {
+            if ($result != "") {
                 return json_encode(["erro" => $result]);
+            } 
+
+            $result = $this->videoModel->update($id, $data);
+
+            if ($result == "") {
+                return json_encode(["erro" => "vídeo não pôde ser atualizado."]);
             }
+
+            return json_encode(["mensagem" => $result]);
         }
 
         // DELETE - Método responsável por excluir uma instância:
@@ -50,7 +62,11 @@
             }
         
             $result = $this->videoModel->delete($id);
-        
+
+            if ($result == "") {
+                return json_encode(["erro" => "vídeo não pôde ser deletado."]);
+            }
+
             return json_encode(["mensagem" => $result]);
         }
 
@@ -62,14 +78,18 @@
                 return json_encode(["erro" => "id inválido: deve ser maior que 0."]);
             }
         
-            // return $this->videoModel->getById($id);
-            return json_encode(["resultado" => json_decode($this->videoModel->getById($id), true)]);
+            $result = $this->videoModel->getById($id);
+
+            if ($result == "") {
+                return json_encode(["erro" => "vídeo não pôde ser encontrado."]);
+            }
+
+            return json_encode(["resultado" => json_decode($result, true)]);
         }
 
         // GET - Método responsável por retornar todas as instâncias:
         public function getAll() {
-            // return $this->videoModel->getAll();
-            return json_encode(["resultado" => json_decode($this->videoModel->getAll(), true)]);
+            return json_encode(["resultado" => $this->videoModel->getAll()]);
         }
 
         // Método responsável por converter os dados recebidos em um objeto Video:
@@ -95,8 +115,8 @@
                 return "id inválido: deve ser númerico e maior que 0.";
             }
 
-            if (strlen($video->getTitulo()) < 10 || strlen($video->getTitulo()) > 25) {
-                return "título inválido: deve conter mais que 9 caracteres e menos que 26.";
+            if (strlen($video->getTitulo()) < 5 || strlen($video->getTitulo()) > 50) {
+                return "título inválido: deve conter mais que 4 caracteres e menos que 51.";
             }
 
             if (strlen($video->getDescricao()) < 10 || strlen($video->getDescricao()) > 250) {
@@ -104,7 +124,7 @@
             }
 
             if ($video->getVideoid() == "" || strlen($video->getVideoid()) > 11) {
-                return "videoid inválido: não pode estar vazio e deve conter no máximo que 11 caracteres.";
+                return "videoid inválido: não pode estar vazio e deve conter no máximo 11 caracteres.";
             }
 
             return $message;

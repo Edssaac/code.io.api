@@ -38,7 +38,9 @@
         unset($ex[$i]);
     }
 
-    $ex = array_filter(array_values($ex));
+    $ex = array_filter(array_values($ex), function($x){
+        return ($x === null) ? false : true;
+    });
 
     if ( isset($ex[0]) ) {
         $controller = $ex[0];
