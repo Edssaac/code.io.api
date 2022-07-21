@@ -15,7 +15,7 @@ videoid     = id do vídeo do youtube
 ======= Validação:
 id          = > 0 (maior que zero)
 titulo      = >= 5 && <= 50  (entre 5 e 50 caracteres)
-descricao   = >= 10 && <= 250 (entre 10 e 250 caracteres)
+descricao   = >= 10 && <= 350 (entre 10 e 350 caracteres)
 videoid     = != "" && <= 11  (não pode estar vazio e deve conter até 11 caracteres)
 
 

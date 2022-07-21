@@ -119,12 +119,34 @@
                 return "título inválido: deve conter mais que 4 caracteres e menos que 51.";
             }
 
-            if (strlen($video->getDescricao()) < 10 || strlen($video->getDescricao()) > 250) {
-                return "descrição inválida: deve conter mais que 9 caracteres e menos que 251.";
+            if (strlen($video->getDescricao()) < 10 || strlen($video->getDescricao()) > 350) {
+                return "descrição inválida: deve conter mais que 9 caracteres e menos que 351.";
             }
 
             if ($video->getVideoid() == "" || strlen($video->getVideoid()) > 11) {
                 return "videoid inválido: não pode estar vazio e deve conter no máximo 11 caracteres.";
+            }
+
+            $curl = curl_init();
+
+            $youtubeV3 = "https://www.googleapis.com/youtube/v3";
+            $key = "AIzaSyBOxSFZ7PILmRFyutUO8aEjMeFfI5vuWPY";
+            $id = $video->getVideoid();
+
+            curl_setopt_array( $curl, 
+            [
+                CURLOPT_URL => "$youtubeV3/videos?part=id&id=$id&key=$key",
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_RETURNTRANSFER => TRUE,
+            ]);
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+
+            $json = json_decode($response, true);
+
+            if (count($json['items']) == 0) {
+                return "videoid inválido: nenhum vídeo encontrado para o id informado.";
             }
 
             return $message;
