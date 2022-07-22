@@ -6,7 +6,7 @@
 > DESCRIÇÃO DO PROJETO
 
 Essa aplicação foi desenvolvida seguindo os príncipios da arquitetura REST e tem seu escopo voltado apenas para o estudo da técnica.<br>
-Projeto que consome a API: https://github.com/Edssaac/code.io <br>
+Projeto de exemplo que consome a API: https://github.com/Edssaac/code.io <br>
 A API tem como objetivo de uso conectar os usuários para que possam compartilhar vídeos relacionados a programação e tecnologia.<br>
 Para informações sobre como usar a API leia abaixo ou acesse a documentação: [CODE.IO.API DOCS](https://github.com/Edssaac/code.io.api/blob/main/Docs/doc.txt)
 
