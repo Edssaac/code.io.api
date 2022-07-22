@@ -1,3 +1,17 @@
+<div align="center">
+  <b>CODE.IO.API</b>
+</div>
+
+
+> DESCRIÇÃO DO PROJETO
+
+Essa aplicação foi desenvolvida seguindo os príncipios da arquitetura REST e tem seu escopo voltado apenas para o estudo da técnica.<br>
+Projeto que consome a API: https://github.com/Edssaac/code.io <br>
+A API tem como objetivo de uso conectar os usuários para que possam compartilhar vídeos relacionados a programação e tecnologia.<br>
+Para informações sobre como usar a API leia abaixo ou acesse a documentação: [CODE.IO.API DOCS](https://github.com/Edssaac/code.io.api/blob/main/Docs/doc.txt)
+
+<br>
+
 URL base:\
 https://code-io-api.herokuapp.com/
 
@@ -19,7 +33,7 @@ https://code-io-api.herokuapp.com/
 
 #### Exemplos:
 
-`https://code-io-api.herokuapp.com/`
+> `https://code-io-api.herokuapp.com/`
 
 ```
 {
@@ -29,46 +43,48 @@ https://code-io-api.herokuapp.com/
 }
 ```
 
-`https://code-io-api.herokuapp.com/video`
+> `https://code-io-api.herokuapp.com/video`
 
 ```
 {
-  "resultado": 
-  [
-    {
-      "id": 4,
-      "titulo": "Sequel to The Legend of Zelda: Breath of the Wild",
-      "descricao": "Return to Hyrule - and the skies above - in this first look at gameplay for the Sequel to the Legend of Zelda: Breath of the Wild, planned for release on #NintendoSwitch in 2022.",
-      "videoid": "Pi-MRZBP91I"
-    },
-
-    {
-      "id": 14,
-      "titulo": "DOOM Eternal – Trailer Oficial de Lançamento",
-      "descricao": "Há uma única forma de vida dominante nesse universo, e ela carrega uma espada da vingança com cano de aço. Tornem-se o Slayer e cacem os exércitos do Inferno nos confins mais remotos da Terra e além. A única coisa que eles temem... são VOCÊS.",
-      "videoid": "4V2_IxmXtk8"
-    },
-
-    {
-      "id": 24,
-      "titulo": "Assassin's Creed Valhalla: Trailer Cinemático",
-      "descricao": "As guerras começarão. Os reinos cairão. Esta é a era dos vikings.",
-      "videoid": "TUbgBVTD7VI"
-    }
-  ]
+    "resultado": [
+        {
+            "id": 4,
+            "titulo": "A História da Internet - TecMundo",
+            "descricao": "Bem vindos à história da origem da internet.",
+            "videoid": "pKxWPo73pX0"
+        },
+        {
+            "id": 14,
+            "titulo": "Entenda: o que é tecnologia? – TecMundo",
+            "descricao": "Quando você pensa em tecnologia, o que vem na sua cabeça? Pode ser aquele smartphone top de linha, um drone voando por aí ou aquele streaming que roda as suas séries favoritas. Isso não tá errado: é tudo tecnologia. Só que essa palavra vai muito além ",
+            "videoid": "N6h4FIr3-Sk"
+        },
+        {
+            "id": 24,
+            "titulo": "Programação é a carreira mais fácil que existe",
+            "descricao": "Quer aprender a programar comigo? Então dá uma olhada no meu Curso Desenvolvimento Web Full Stack: https://programadorbr.com/?src=ytprog... Este curso é ideal para quem quer sair do zero, aprender diversas tecnologias e fazer os seus primeiros projetos de n",
+            "videoid": "1o-BgQKCwWk"
+        },
+        {
+            "id": 34,
+            "titulo": "A BASE PARA SABER ANTES DE PROGRAMAR!",
+            "descricao": "Se você já ouviu por aí que é preciso estudar a BASE antes de programar esse vídeo é pra você. Nós mesmos no canal já falamos várias vezes sobre isso mas nunca explicamos o que seria esses fundamentos. Esse conteúdo pode ser um guia para quem quer c",
+            "videoid": "BTENKdRVS2U"
+        }
+    ]
 }
 ```
 
-`https://code-io-api.herokuapp.com/video/4`
+> `https://code-io-api.herokuapp.com/video/14`
 
 ```
 {
-  "resultado": 
-  {
-    "id": 4,
-    "titulo": "Sequel to The Legend of Zelda: Breath of the Wild",
-    "descricao": "Return to Hyrule - and the skies above - in this first look at gameplay for the Sequel to the Legend of Zelda: Breath of the Wild, planned for release on #NintendoSwitch in 2022.",
-    "videoid": "Pi-MRZBP91I"
-  }
+    "resultado": {
+        "id": 14,
+        "titulo": "Entenda: o que é tecnologia? – TecMundo",
+        "descricao": "Quando você pensa em tecnologia, o que vem na sua cabeça? Pode ser aquele smartphone top de linha, um drone voando por aí ou aquele streaming que roda as suas séries favoritas. Isso não tá errado: é tudo tecnologia. Só que essa palavra vai muito além ",
+        "videoid": "N6h4FIr3-Sk"
+    }
 }
 ```
