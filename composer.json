@@ -1,17 +1,24 @@
 {
     "name": "edssaac/code.io.api",
-    "description": "API para dados de videos sobre tecnologia.",
+    "description": "API que atua como uma biblioteca de vídeos especializados em tecnologia.",
+    "type": "project",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "App\\": "App/"
-        }
-    },
     "authors": [
         {
             "name": "Edssaac",
             "email": "edssaac@outlook.com"
         }
     ],
-    "require": {}
+    "config": {
+        "vendor-dir": "system/vendor"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/",
+            "Library\\": "system/library/"
+        }
+    },
+    "require": {
+        "php": ">=7.4"
+    }
 }

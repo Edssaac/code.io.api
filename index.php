@@ -1,109 +1,201 @@
 <?php
-    
-    // Autoload do Composer:
-    // require_once('\vendor\autoload.php');
-    require_once(__DIR__.'/vendor/autoload.php');
 
-    // Dependências:
-    use App\Controller\VideoController;
+require_once(__DIR__ . '/system/vendor/autoload.php');
 
+use Library\Log;
 
-    // Headers:
-    header("Access-Control-Allow-Origin: *");
-    header("Content-Type: application/json; charset=UTF-8");
-    header("Access-Control-Allow-Methods: GET,POST,PUT,DELETE");
-    header("Access-Control-Max-Age: 3600");
-    header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-    // Fim dos Headers
+const API_NAME = 'code.io.api';
+const API_VERSION = '1.0.0';
+const API_DOCS = 'https://github.com/Edssaac/code.io.api';
+const ERROR_INVALID_REQUEST = 'Requisição inválida:';
+const ERROR_UNSUPPORTED_PATH = 'Caminho não suportado pela API. Verifique a documentação.';
+const ERROR_UNSUPPORTED_METHOD = 'Método de requisição não suportado pela API. Verifique a documentação.';
 
+set_exception_handler(function (Throwable $exception) {
+    Log::write(sprintf(
+        'Exceção: %s - Arquivo: %s - Linha: %s',
+        $exception->getMessage(),
+        $exception->getFile(),
+        $exception->getLine()
+    ));
 
-    // Parâmentros:
-    $controller = null;
-    $id         = null;
-    $data       = null;
-    $method     = $_SERVER['REQUEST_METHOD']; // Permitidos: DELETE, GET, POST, PUT
-    $uri        = $_SERVER['REQUEST_URI']; // ex: /gamenews/api/games/10
-    $unsetCount = ($_SERVER['HTTP_HOST'] == 'localhost') ? 2 : 1; // Quantidade a ser removida da URI
-    // Fim da declaração dos parâmetros
+    sendJsonResponse(['status' => 400, 'error' => 'Houve um erro interno.'], 400);
+});
 
-
-    // Passa os dados recebidos para o $data em formato de array:
-    parse_str(file_get_contents("php://input"), $data); 
-    
-
-    // Tratando a URI:
-    $ex = explode("/", $uri);
-
-    for ($i=0; $i<$unsetCount; $i++) {
-        unset($ex[$i]);
+set_error_handler(function ($errorLevel, $errorMessage, $errorFile, $errorLine) {
+    if (error_reporting() === 0) {
+        return false;
     }
 
-    $ex = array_filter(array_values($ex), function($x){
-        return ($x === null) ? false : true;
-    });
-
-    if ( isset($ex[0]) ) {
-        $controller = $ex[0];
+    switch ($errorLevel) {
+        case E_NOTICE:
+        case E_USER_NOTICE:
+            $error = 'Notice';
+            break;
+        case E_WARNING:
+        case E_USER_WARNING:
+            $error = 'Warning';
+            break;
+        case E_ERROR:
+        case E_USER_ERROR:
+            $error = 'Fatal Error';
+            break;
+        default:
+            $error = 'Unknown';
+            break;
     }
 
-    if ( isset($ex[1]) ) {
-        $id = $ex[1];
+    Log::write(sprintf(
+        '%s: %s - Arquivo: %s - Linha: %s',
+        $error,
+        $errorMessage,
+        $errorFile,
+        $errorLine
+    ));
+
+    return true;
+});
+
+function loadEnvironmentVariables()
+{
+    if (!file_exists(__DIR__ . '/.env')) {
+        throw new Exception('Arquivo .env não encontrado no projeto!');
     }
-    // Fim do tratamento da URI
 
+    $lines = file(__DIR__ . '/.env');
 
-    if ($controller == null) {
-        echo json_encode([
-            "mensagem" => "code.io.api", 
-            "versão" => "1.0.0",
-            "documentação" => "https://github.com/Edssaac/code.io.api",
+    foreach ($lines as $line) {
+        if (strpos($line, '#') === false) {
+            $line = trim($line);
+        } else {
+            $line = strstr(trim($line), '#', true);
+        }
+
+        if (!empty($line)) {
+            $var = explode('=', $line);
+
+            $_ENV[trim($var[0])] = trim($var[1]);
+        }
+    }
+
+    $requested = [
+        'DB_HOST',
+        'DB_NAME',
+        'DB_USER',
+        'DB_PASSWORD',
+        'YOUTUBE_API_V3_URL',
+        'YOUTUBE_API_V3_KEY'
+    ];
+
+    $diff = array_diff_assoc($requested, array_keys($_ENV));
+
+    if (!empty($diff)) {
+        throw new Exception('Variáveis de ambiente não encontradas no arquivo .env!');
+    }
+}
+
+function sendJsonResponse($data, $statusCode = 200)
+{
+    http_response_code($statusCode);
+    echo json_encode($data);
+    exit;
+}
+
+function handleRoutes()
+{
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Max-Age: 3600');
+    header('Content-Type: application/json; charset=UTF-8');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+
+    function validateRequestMethod($method)
+    {
+        $allowedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'];
+
+        if (!in_array($method, $allowedMethods)) {
+            sendJsonResponse(['status' => 405, 'error' => ERROR_UNSUPPORTED_METHOD], 405);
+        }
+    }
+
+    function validateID($id)
+    {
+        return !is_null($id) && is_numeric($id);
+    }
+
+    $settings = [
+        'data'      => json_decode(file_get_contents('php://input'), true),
+        'method'    => $_SERVER['REQUEST_METHOD'],
+        'uri'       => trim($_SERVER['REQUEST_URI'], '/')
+    ];
+
+    $path = array_values(array_filter(explode('/', $settings['uri']), function ($value) {
+        return !(empty($value) || $value == 'code.io.api');
+    }));
+
+    $service = !empty($path[0]) ? strtolower($path[0]) : NULL;
+    $id = $path[1] ?? NULL;
+
+    if (empty($service)) {
+        sendJsonResponse([
+            'api' => API_NAME,
+            'version' => API_VERSION,
+            'documentation' => API_DOCS
         ]);
-        die;
     }
 
-    if ($controller != 'video') {
-        echo json_encode(["erro" => "caminho não suportado pela API. verifique a documentação."]);
-        die;
+    $supportedServices = [
+        'video'
+    ];
+
+    if (!in_array($service, $supportedServices)) {
+        sendJsonResponse([
+            'error' => ERROR_UNSUPPORTED_PATH,
+            'documentation' => API_DOCS
+        ], 404);
     }
 
-    $videoController = new VideoController();
+    $controllerClass = 'App\Controller\\' . ucfirst($service) . 'Controller';
+    $controller = new $controllerClass();
 
-    switch ($method) {
-        case 'POST':
-            if ($id == null) {
-                echo $videoController->create($data);
+    validateRequestMethod($settings['method']);
+
+    switch ($settings['method']) {
+        case 'GET':
+            if (validateID($id)) {
+                sendJsonResponse($controller->getById($id));
             } else {
-                echo json_encode(["erro" => "requisição inválida: rota POST não deve receber um ID."]);
+                sendJsonResponse($controller->getAll());
             }
-        break;
+            break;
+
+        case 'POST':
+            if (validateID($id)) {
+                sendJsonResponse(['status' => 400, 'error' => ERROR_INVALID_REQUEST . ' Rota não deve receber um ID.'], 400);
+            }
+
+            sendJsonResponse($controller->insert($settings['data']));
+            break;
 
         case 'PUT':
-            if ($id != null) {
-                echo $videoController->update($id, $data);
-            } else {
-                echo json_encode(["erro" => "requisição inválida: rota PUT necessita de um ID para que a atualização ocorra."]);
+            if (!validateID($id)) {
+                sendJsonResponse(['status' => 400, 'error' => ERROR_INVALID_REQUEST . ' Rota deve receber um ID válido.'], 400);
             }
-        break;
             
+            $settings['data']['id'] = $id;
+
+            sendJsonResponse($controller->update($settings['data']));
+            break;
+
         case 'DELETE':
-            if ($id != null) {
-                echo $videoController->delete($id);
-            } else {
-                echo json_encode(["erro" => "requisição inválida: rota DELETE necessita de um ID para que a exclusão ocorra."]);
+            if (!validateID($id)) {
+                sendJsonResponse(['status' => 400, 'error' => ERROR_INVALID_REQUEST . ' Rota deve receber um ID válido.'], 400);
             }
-        break;
 
-        case 'GET':
-            if ($id != null) {
-                echo $videoController->getById($id);
-            } else {
-                echo $videoController->getAll();
-            }
-        break;
-        
-        default:
-            echo json_encode(["erro" => "método de requisição não suportado."]);
-        break;
+            sendJsonResponse($controller->delete($id));
+            break;
     }
+}
 
-?>
+loadEnvironmentVariables();
+handleRoutes();

@@ -1,75 +1,82 @@
 <?php
 
-    namespace App\Model;
+namespace App\Model;
 
-    // Dependências:
-    use App\Entity\Video;
-    use App\Database\Connection;
+use App\Model;
+use PDO;
 
-    class VideoModel {
+class VideoModel extends Model
+{
+    public function insert(array $video): bool
+    {
+        $result = $this->query(
+            "INSERT INTO video SET
+                title = :title, 
+                description = :description, 
+                videoid = :videoid
+            ",
+            $this->mapToBind($video)
+        );
 
-        private $db;
-
-        // Método construtor da classe:
-        public function __construct() {
-            $this->db = new Connection("tbvideos");
-        }
-
-        // Método responsável por criar uma nova instância:
-        public function create($video) {
-
-            if ($this->db->insert($video)) {
-                return "vídeo registrado.";
-            } 
-
-            return "";
-        }
-
-        // Método responsável por atualizar um registro:
-        public function update($id, $video)  {
-        
-            if (count($this->db->select("id=$id")->fetchAll()) == 0) {
-                return "";
-            }
-            
-            if ($this->db->update("id=$id", $video)) {
-                return "vídeo atualizado.";
-            }
-        
-            return "";
-        }
-        
-        // Método responsável por excluir um registro:
-        public function delete($id){
-
-            if (count($this->db->select("id=$id")->fetchAll()) == 0) {
-                return "";
-            }
-            
-            if ($this->db->delete("id=$id")) {
-                return "vídeo deletado.";
-            }
-        
-            return "";
-        }
-
-        // Método responsável por retornar um registro especificado pelo id:
-        public function getById($id) {
-
-            $search = $this->db->select("id=$id")->fetch(\PDO::FETCH_ASSOC);
-
-            if (!$search) {
-                return "";
-            }
-
-            return json_encode($search);
-        }
-
-        // Método responsável por retornar todos os registros:
-        public function getAll() {
-            return ($this->db->select()->fetchAll(\PDO::FETCH_ASSOC));
-        }
-
+        return (bool) $result->rowCount();
     }
 
-?>
+    public function getVideo(int $id): array
+    {
+        $result = $this->query(
+            "SELECT id, title, description, videoid FROM video
+				WHERE id = :id
+			",
+            $this->mapToBind([
+                'id' => $id
+            ])
+        );
+
+        $video = $result->fetch(PDO::FETCH_ASSOC) ?? [];
+
+        return $video;
+    }
+
+    public function getVideos(): array
+    {
+        $result = $this->query(
+            "SELECT id, title, description, videoid FROM video"
+        );
+
+        $videos = $result->fetchAll(PDO::FETCH_ASSOC) ?? [];
+
+        return $videos;
+    }
+
+    public function update(array $video): bool
+    {
+        $result = $this->query(
+            "UPDATE video 
+                SET title = :title, description = :description, videoid = :videoid
+				WHERE id = :id
+			",
+            $this->mapToBind([
+                'id' => $video['id'],
+                'title' => $video['title'],
+                'description' => $video['description'],
+                'videoid' => $video['videoid']
+            ])
+        );
+
+        return (bool) $result->rowCount();
+    }
+
+    public function delete(int $id): bool
+    {
+        $result = $this->query(
+            "DELETE FROM video
+				WHERE id = :id
+			",
+            $this->mapToBind([
+                'id' => $id
+            ])
+        );
+
+        return (bool) $result->rowCount();
+    }
+}
