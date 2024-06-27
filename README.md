@@ -63,7 +63,7 @@ CREATE DATABASE IF NOT EXISTS `code_io`;
 
 USE `code_io`;
 
-CREATE TABLE IF NOT EXISTS video (
+CREATE TABLE IF NOT EXISTS `video` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(50) NOT NULL,
     `description` VARCHAR(500) NOT NULL,
