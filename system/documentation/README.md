@@ -1,36 +1,43 @@
-# Documentação da API code.io.api
+# Documentação - code.io.api
 
-## Descrição
-**code.io.api** é uma aplicação de estudo baseada em RESTful. Seu objetivo é conectar usuários para que possam compartilhar vídeos relacionados à programação. Este é apenas um simples e iniciante projeto de estudos.
+> Descrição
+
+code.io.api é uma aplicação pessoal criada para estudo próprio, centrada na exploração e prática de conceitos de APIs RESTful. 
+Além disso, a API facilita a conexão entre usuários interessados em compartilhar vídeos sobre programação e tecnologia.
 
 ## Campos
-- **id**: código de identificação do vídeo registrado na API
-- **titulo**: nome do vídeo
-- **descricao**: descrição do vídeo
-- **videoid**: id do vídeo do YouTube
 
-## Validação
-- **id**: > 0 (maior que zero)
-- **titulo**: entre 5 e 50 caracteres
-- **descricao**: entre 10 e 350 caracteres
-- **videoid**: não pode estar vazio e deve conter até 11 caracteres
+| Campo       | Descrição                                       | Restrições                                | Obrigatório em |
+|-------------|-------------------------------------------------|-------------------------------------------|:--------------:|
+| id          | Código de identificação do registro na API.     | Deve ser um número inteiro e positivo.    | PUT / DELETE   |
+| title       | Nome do vídeo.                                  | Deve ter entre 5 e 50 caracteres.         | POST / PUT     |
+| description | Descrição do vídeo.                             | Deve ter entre 10 e 500 caracteres.       | POST / PUT     |
+| videoid     | ID do vídeo no YouTube.                         | Deve possuir 11 caracteres.               | POST / PUT     |
 
 ## URL Base
-`https://code-io-api.herokuapp.com/`
+> Verifique se subiu nesta mesma porta, caso contrário, utilize a escolhida.
+
+`http://localhost:8080/`
 
 ## Endpoints
 
 #### POST `/video`
 Cria um novo registro de vídeo.
 
-#### PUT `/video/:id`
-Altera o registro de um vídeo.
-
-#### DELETE `/video/:id`
-Deleta o registro de um vídeo.
+---
 
 #### GET `/video/:id`
-Retorna um vídeo registrado pelo seu id.
+Retorna um vídeo especificado pelo seu id.
 
 #### GET `/video`
 Retorna todos os vídeos registrados.
+
+---
+
+#### PUT `/video/:id`
+Altera o registro de um vídeo especificado pelo seu id.
+
+---
+
+#### DELETE `/video/:id`
+Deleta o registro de um vídeo especificado pelo seu id..
