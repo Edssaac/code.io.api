@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
+use App\Controller;
 use App\Model\VideoModel;
 
-class VideoController
+class VideoController extends Controller
 {
     private VideoModel $videoModel;
 
