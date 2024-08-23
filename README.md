@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `video` (
     `title` VARCHAR(50) NOT NULL,
     `description` VARCHAR(500) NOT NULL,
     `videoid` VARCHAR(11) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (`id`)
 );
 ```
 
