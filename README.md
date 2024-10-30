@@ -10,7 +10,7 @@ prático desse projeto pode ser visto em [code.io](https://github.com/Edssaac/co
 
 Para informações detalhadas sobre como utilizar a API, consulte a documentação disponível no seguinte link:
 
-[![documentation](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)](https://github.com/Edssaac/code.io.api/tree/main/system/documentation)
+[![Documentação](https://img.shields.io/badge/Documentação-000000?style=for-the-badge&logo=markdown&logoColor=white)](https://github.com/Edssaac/code.io.api/tree/main/system/documentation)
 
 **Objetivo:**
 
@@ -18,7 +18,7 @@ Implementar um modelo básico de API REST.
 
 **Tecnologias Utilizadas:**
 
-![COMPOSER](https://img.shields.io/badge/Composer-885630?style=for-the-badge&logo=Composer&logoColor=white)
+![COMPOSER](https://img.shields.io/badge/Composer-885630?style=for-the-badge&logo=composer&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![MYSQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
 ![YOUTUBE](https://img.shields.io/badge/YouTube_API-FF0000?style=for-the-badge&logo=youtube&logoColor=white)
@@ -30,8 +30,9 @@ Se você é um desenvolvedor interessado em contribuir ou entender melhor o func
 <br>
 
 **Requisitos de Instalação:**
-- Composer - `2.5.5`
-- PHP - `7.4.33`
+
+![COMPOSER](https://img.shields.io/badge/Composer-2.5.5-885630?style=for-the-badge&logo=composer)
+![PHP](https://img.shields.io/badge/PHP-7.4.33-777BB4?style=for-the-badge&logo=php)
 
 <br>
 
@@ -84,9 +85,9 @@ Abra o terminal e execute o seguinte comando na raiz do projeto:
 
 2. Uma vez que o servidor esteja em execução, abra seu Postman e acesse a seguinte URL:
    ```
-   http://localhost:8080/
+   http://localhost:8080
    ```
-   Confira a [documentação](https://github.com/Edssaac/code.io.api/tree/main/system/documentation) para informações sobre o consumo da API.
+   Confira a [Documentação](https://github.com/Edssaac/code.io.api/tree/main/system/documentation) para informações sobre o consumo da API.
 
 Certifique-se de que o servidor PHP embutido esteja sempre em execução enquanto você estiver trabalhando na aplicação localmente. <br>
 Se desejar encerrar o servidor, basta pressionar `ctrl + C` no terminal onde o servidor está sendo executado.
@@ -96,4 +97,4 @@ Se desejar encerrar o servidor, basta pressionar `ctrl + C` no terminal onde o s
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/edssaac)
 [![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:edssaac@gmail.com)
 [![Outlook](https://img.shields.io/badge/Outlook-0078D4?style=for-the-badge&logo=microsoft-outlook&logoColor=white)](mailto:edssaac@outlook.com)
-[![Linkedin](https://img.shields.io/badge/LinkedIn-black.svg?style=for-the-badge&logo=linkedin&color=informational)](https://www.linkedin.com/in/edssaac/)
+[![Linkedin](https://img.shields.io/badge/LinkedIn-black.svg?style=for-the-badge&logo=linkedin&color=informational)](https://www.linkedin.com/in/edssaac)
