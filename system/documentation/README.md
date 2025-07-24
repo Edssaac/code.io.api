@@ -2,7 +2,7 @@
 
 > Descrição
 
-code.io.api é uma aplicação pessoal criada para estudo próprio, centrada na exploração e prática de conceitos de APIs RESTful. 
+code.io.api é uma aplicação criada para estudo próprio, centrada na exploração e prática de conceitos de APIs RESTful. <br>
 Além disso, a API facilita a conexão entre usuários interessados em compartilhar vídeos sobre programação e tecnologia.
 
 ## Campos
@@ -13,6 +13,8 @@ Além disso, a API facilita a conexão entre usuários interessados em compartil
 | title       | Nome do vídeo.                                  | Deve ter entre 5 e 50 caracteres.         | POST / PUT     |
 | description | Descrição do vídeo.                             | Deve ter entre 10 e 500 caracteres.       | POST / PUT     |
 | videoid     | ID do vídeo no YouTube.                         | Deve possuir 11 caracteres.               | POST / PUT     |
+
+> [Collection no Postman](./system/documentation/code.io.api.postman_collection.json)
 
 ## URL Base
 > Verifique se subiu nesta mesma porta, caso contrário, utilize a escolhida.
