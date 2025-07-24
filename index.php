@@ -6,10 +6,16 @@ use Library\Log;
 
 const API_NAME = 'code.io.api';
 const API_VERSION = '1.0.0';
-const API_DOCS = 'https://github.com/Edssaac/code.io.api';
+const API_DOCS = 'https://github.com/edssaac/code.io.api';
 const ERROR_INVALID_REQUEST = 'Requisição inválida:';
 const ERROR_UNSUPPORTED_PATH = 'Caminho não suportado pela API. Verifique a documentação.';
 const ERROR_UNSUPPORTED_METHOD = 'Método de requisição não suportado pela API. Verifique a documentação.';
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Max-Age: 3600');
+header('Content-Type: application/json; charset=UTF-8');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
 set_exception_handler(function (Throwable $exception) {
     Log::write(sprintf(
@@ -62,38 +68,17 @@ function loadEnvironmentVariables()
         throw new Exception('Arquivo .env não encontrado no projeto!');
     }
 
-    $lines = file(__DIR__ . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
 
-    foreach ($lines as $line) {
-        if (strpos($line, '#') !== false) {
-            $line = strstr($line, '#', true);
-        }
-
-        $line = trim($line);
-
-        if (!empty($line)) {
-            list($key, $value) = explode('=', $line, 2) + [NULL, NULL];
-
-            if ($key !== NULL && $value !== NULL) {
-                $_ENV[trim($key)] = trim($value);
-            }
-        }
-    }
-
-    $requested = [
+    $dotenv->required([
         'DB_HOST',
         'DB_NAME',
         'DB_USER',
         'DB_PASSWORD',
         'YOUTUBE_API_V3_URL',
         'YOUTUBE_API_V3_KEY'
-    ];
-
-    $diff = array_diff($requested, array_keys($_ENV));
-
-    if (!empty($diff)) {
-        throw new Exception('Variáveis de ambiente não encontradas no arquivo .env!');
-    }
+    ])->notEmpty();
 }
 
 function sendJsonResponse($data, $statusCode = 200)
@@ -105,12 +90,6 @@ function sendJsonResponse($data, $statusCode = 200)
 
 function handleRoutes()
 {
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Max-Age: 3600');
-    header('Content-Type: application/json; charset=UTF-8');
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-    header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
-
     function validateRequestMethod($method)
     {
         $allowedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'];
@@ -126,7 +105,7 @@ function handleRoutes()
     }
 
     $settings = [
-        'data'      => json_decode(file_get_contents('php://input'), true),
+        'data'      => json_decode(file_get_contents('php://input'), true) ?? [],
         'method'    => $_SERVER['REQUEST_METHOD'],
         'uri'       => trim($_SERVER['REQUEST_URI'], '/')
     ];

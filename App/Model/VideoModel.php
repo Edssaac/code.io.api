@@ -32,7 +32,11 @@ class VideoModel extends Model
             ])
         );
 
-        $video = $result->fetch(PDO::FETCH_ASSOC) ?? [];
+        $video = $result->fetch(PDO::FETCH_ASSOC);
+
+        if (empty($video)) {
+            return [];
+        }
 
         return $video;
     }
@@ -44,6 +48,10 @@ class VideoModel extends Model
         );
 
         $videos = $result->fetchAll(PDO::FETCH_ASSOC) ?? [];
+
+        if (empty($videos)) {
+            return [];
+        }
 
         return $videos;
     }

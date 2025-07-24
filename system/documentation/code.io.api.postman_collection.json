@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "01826df8-737d-43b0-810e-08c60fd132a3",
+		"name": "code.io.api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "22557268"
+	},
+	"item": [
+		{
+			"name": "Base",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080"
+			},
+			"response": []
+		},
+		{
+			"name": "Rota Inválida",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/teste"
+			},
+			"response": []
+		},
+		{
+			"name": "Obter Todos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/video"
+			},
+			"response": []
+		},
+		{
+			"name": "Obter Vídeo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/video/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Vídeo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Título de Teste\",\n    \"description\": \"Descrição de Teste\",\n    \"videoid\": \"POk3B4rV8B4\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/video"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Vídeo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Título Atualizado de Teste\",\n    \"description\": \"Descrição Atualizada de Teste\",\n    \"videoid\": \"POk3B4rV8B4\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/video/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Remover Vídeo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/video/1"
+			},
+			"response": []
+		}
+	]
+}
