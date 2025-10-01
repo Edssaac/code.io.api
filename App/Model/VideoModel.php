@@ -18,7 +18,7 @@ class VideoModel extends Model
             $this->mapToBind($video)
         );
 
-        return (bool) $result->rowCount();
+        return true;
     }
 
     public function getVideo(int $id): array
@@ -28,7 +28,7 @@ class VideoModel extends Model
 				WHERE id = :id
 			",
             $this->mapToBind([
-                'id' => $id
+                "id" => $id
             ])
         );
 
@@ -41,11 +41,23 @@ class VideoModel extends Model
         return $video;
     }
 
-    public function getVideos(): array
+    public function getVideos(array $filters = []): array
     {
-        $result = $this->query(
-            "SELECT id, title, description, videoid FROM video"
-        );
+        if (empty($filters["limit"])) {
+            $filters["limit"] = $_ENV["PAGINATION_LIMIT"];
+        }
+
+        if (empty($filters["offset"])) {
+            $filters["offset"] = 0;
+        }
+
+        $result = $this->query("
+            SELECT id, title, description, videoid 
+            FROM video 
+            ORDER BY id ASC 
+            LIMIT {$filters["limit"]}
+            OFFSET {$filters["offset"]}
+        ");
 
         $videos = $result->fetchAll(PDO::FETCH_ASSOC) ?? [];
 
@@ -64,14 +76,14 @@ class VideoModel extends Model
 				WHERE id = :id
 			",
             $this->mapToBind([
-                'id' => $video['id'],
-                'title' => $video['title'],
-                'description' => $video['description'],
-                'videoid' => $video['videoid']
+                "id" => $video["id"],
+                "title" => $video["title"],
+                "description" => $video["description"],
+                "videoid" => $video["videoid"]
             ])
         );
 
-        return (bool) $result->rowCount();
+        return true;
     }
 
     public function delete(int $id): bool
@@ -81,10 +93,10 @@ class VideoModel extends Model
 				WHERE id = :id
 			",
             $this->mapToBind([
-                'id' => $id
+                "id" => $id
             ])
         );
 
-        return (bool) $result->rowCount();
+        return true;
     }
 }

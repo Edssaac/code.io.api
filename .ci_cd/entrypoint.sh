@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Aguardando o banco de dados ficar pronto..."
-until mysqladmin ping -h "$DB_HOST" --silent; do
+until mysqladmin ping -h "$DB_HOST" --protocol=tcp --silent; do
     echo "Banco de dados não está pronto. Aguardando..."
     sleep 2
 done

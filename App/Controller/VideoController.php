@@ -18,10 +18,10 @@ class VideoController extends Controller
     {
         $result = $this->validateVideo($video);
 
-        if (isset($result['error'])) {
+        if (isset($result["error"])) {
             return [
-                'status' => 400,
-                'error' => $result['error']
+                "status" => 400,
+                "error" => $result["error"]
             ];
         }
 
@@ -29,14 +29,14 @@ class VideoController extends Controller
 
         if ($result) {
             return [
-                'status' => 201,
-                'message' => 'vídeo registrado com sucesso.'
+                "status" => 201,
+                "message" => "vídeo registrado com sucesso."
             ];
         }
 
         return [
-            'status' => 400,
-            'error' => 'vídeo não pôde ser registrado.'
+            "status" => 400,
+            "error" => "vídeo não pôde ser registrado."
         ];
     }
 
@@ -44,10 +44,10 @@ class VideoController extends Controller
     {
         $result = $this->validateVideo($video);
 
-        if (isset($result['error'])) {
+        if (isset($result["error"])) {
             return [
-                'status' => 400,
-                'error' => $result['error']
+                "status" => 400,
+                "error" => $result["error"]
             ];
         }
 
@@ -55,14 +55,14 @@ class VideoController extends Controller
 
         if ($result) {
             return [
-                'status' => 200,
-                'message' => 'vídeo atualizado com sucesso.'
+                "status" => 200,
+                "message" => "vídeo atualizado com sucesso."
             ];
         }
 
         return [
-            'status' => 400,
-            'error' => 'vídeo não pôde ser atualizado.'
+            "status" => 400,
+            "error" => "vídeo não pôde ser atualizado."
         ];
     }
 
@@ -72,14 +72,14 @@ class VideoController extends Controller
 
         if ($result) {
             return [
-                'status' => 204,
-                'message' => 'vídeo deletado com sucesso.'
+                "status" => 204,
+                "message" => "vídeo deletado com sucesso."
             ];
         }
 
         return [
-            'status' => 400,
-            'error' => 'vídeo não pôde ser deletado.'
+            "status" => 400,
+            "error" => "vídeo não pôde ser deletado."
         ];
     }
 
@@ -89,22 +89,28 @@ class VideoController extends Controller
 
         if ($video) {
             return [
-                'status' => 200,
-                'video' => $video
+                "status" => 200,
+                "video" => $video
             ];
         }
 
         return [
-            'status' => 404,
-            'error' => 'vídeo não encontrado.'
+            "status" => 404,
+            "error" => "vídeo não encontrado."
         ];
     }
 
-    public function getAll()
+    public function getAll(array $params): array
     {
+        $page = (int)($params["page"] ?? 1);
+
+        $page = max($page, 1);
+
+        $data["offset"] = $_ENV["PAGINATION_LIMIT"] * ($page - 1);
+
         return [
-            'status' => 200,
-            'videos' => $this->videoModel->getVideos()
+            "status" => 200,
+            "videos" => $this->videoModel->getVideos($data)
         ];
     }
 }

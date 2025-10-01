@@ -21,7 +21,7 @@ class Model
     public function __construct()
     {
         try {
-            $this->connection = new PDO('mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+            $this->connection = new PDO("mysql:host=" . $_ENV["DB_HOST"] . ";dbname=" . $_ENV["DB_NAME"], $_ENV["DB_USER"], $_ENV["DB_PASSWORD"]);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $ex) {
             throw new PDOException($ex->getMessage());
@@ -59,7 +59,7 @@ class Model
         $map = [];
 
         foreach ($data as $key => $value) {
-            $map[':' . $key] = filter_var($value);
+            $map[":" . $key] = filter_var($value);
         }
 
         return $map;

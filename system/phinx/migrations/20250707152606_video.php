@@ -19,15 +19,15 @@ final class Video extends AbstractMigration
      */
     public function change(): void
     {
-        if ($this->hasTable('video')) {
+        if ($this->hasTable("video")) {
             return;
         }
 
-        $this->table('video', ['id' => false, 'primary_key' => 'id'])
-            ->addColumn('id', 'integer', ['identity' => true])
-            ->addColumn('title', 'string', ['limit' => 50])
-            ->addColumn('description', 'string', ['limit' => 500])
-            ->addColumn('videoid', 'string', ['limit' => 11])
+        $this->table("video", ["id" => false, "primary_key" => "id"])
+            ->addColumn("id", "integer", ["identity" => true])
+            ->addColumn("title", "string", ["limit" => 50])
+            ->addColumn("description", "string", ["limit" => 500])
+            ->addColumn("videoid", "string", ["limit" => 11])
             ->create();
     }
 }
